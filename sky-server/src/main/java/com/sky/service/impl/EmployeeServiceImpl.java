@@ -67,14 +67,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     /*
-    * 新增员工 employeeDTO
-    * */
+     * 新增员工 employeeDTO
+     * */
     @Override
     public void save(EmployeeDTO employeeDTO) {
-        System.out.println("当前的线程:"+Thread.currentThread().getId());
-        Employee employee =new Employee();
+        System.out.println("当前的线程:" + Thread.currentThread().getId());
+        Employee employee = new Employee();
         //1.拷贝
-        BeanUtils.copyProperties(employeeDTO,employee);
+        BeanUtils.copyProperties(employeeDTO, employee);
         //1.设置账户状体，默认正常状态为1，0表示锁定状态
         employee.setStatus(StatusConstant.ENABLE);
         //2.设置密码,默认为123456
@@ -89,17 +89,55 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     /*
-    * 员工分页查询
-    * */
+     * 员工分页查询
+     * */
     @Override
     public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
         //1.开始分页查询
-        PageHelper.startPage(employeePageQueryDTO.getPage(),employeePageQueryDTO.getPageSize());
+        PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
         //2.调用mapper执行分页查询
         Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
         long total = page.getTotal();
         List<Employee> records = page.getResult();
-        return new PageResult(total,records);
+        return new PageResult(total, records);
+    }
+
+    /*
+     * 禁用启用员工
+     * */
+    @Override
+    public void startOrStop(Integer status, Long id) {
+        //update employee set status = ? where id = ?
+//        Employee employee = new Employee();
+//        employee.setStatus(status);
+//        employee.setId(id);
+        Employee employee = Employee.builder()
+                .status(status)
+                .id(id)
+                .build();
+        employeeMapper.update(employee);
+    }
+
+    /*
+     * 根据ID查询员工
+     * */
+    @Override
+    public Employee getById(long id) {
+        Employee employee = employeeMapper.getById(id);
+        employee.setPassword("****");
+        return employee;
+    }
+    /*
+     * 编辑员工信息
+     * */
+    @Override
+    public void update(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO,employee);
+
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+        employeeMapper.update(employee);
     }
 
 }

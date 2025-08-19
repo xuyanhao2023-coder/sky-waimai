@@ -29,4 +29,13 @@ public interface EmployeeMapper {
     *  员工分页查询--xml
     * */
     Page<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
+    /*
+     * 禁用启用员工
+     * */
+    void update(Employee employee);
+    /*
+     * 根据ID查询员工
+     * */
+    @Select("select * from employee where id = #{id}")
+    Employee getById(long id);
 }
