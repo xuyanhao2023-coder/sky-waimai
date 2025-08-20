@@ -15,6 +15,7 @@
         </where>
         order by sort
     </select>
+
     <!--禁用启用菜品-->
     <update id="update" parameterType="com.sky.entity.Category">
         update category
@@ -38,4 +39,12 @@
         </set>
         WHERE id = #{id}
     </update>
+    <!--根据分类查询菜品-->
+    <select id="listByType" resultType="com.sky.entity.Category">
+        select *
+        from category
+        where type =#{type}
+         and status = 1
+        order by sort
+    </select>
 </mapper>

@@ -6,6 +6,7 @@ import com.sky.entity.Category;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.CategoryService;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -60,5 +61,12 @@ public class CategoryController {
         log.info("删除分类:{}",id);
         categoryService.deleteById(id);
         return Result.success();
+    }
+    /*
+    * 根据类型查询分类列表
+    * */
+    @GetMapping("/list")
+    public Result<?> listCategory(@RequestParam Integer type){
+        return categoryService.listByType(type);
     }
 }

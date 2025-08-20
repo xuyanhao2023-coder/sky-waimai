@@ -13,6 +13,7 @@ import com.sky.mapper.CategoryMapper;
 import com.sky.mapper.DishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
+import com.sky.result.Result;
 import com.sky.service.CategoryService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,5 +102,13 @@ public class CategoryServiceImpl implements CategoryService {
         }
         //删除分类数据
         categoryMapper.deleteById(id);
+    }
+    /*
+    * 根据类型查询分类菜品
+    * */
+    @Override
+    public Result<?> listByType(Integer type) {
+        List<Category> categories = categoryMapper.listByType(type);
+        return Result.success(categories);
     }
 }
