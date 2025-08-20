@@ -38,4 +38,8 @@ public interface EmployeeMapper {
      * */
     @Select("select * from employee where id = #{id}")
     Employee getById(long id);
+    /*
+     * 修改密码
+     * */
+    void updatePassword(Employee employee);
 }
