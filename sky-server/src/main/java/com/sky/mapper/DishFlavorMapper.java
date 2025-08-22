@@ -9,4 +9,6 @@ import java.util.List;
 public interface DishFlavorMapper {
 //    批量插入口味数据
     void insertBatch(List<DishFlavor> flavors);
+// 根据菜品批量删除关联的口味数据
+    void deleteByDishIds(List<Long> dishIds);
 }

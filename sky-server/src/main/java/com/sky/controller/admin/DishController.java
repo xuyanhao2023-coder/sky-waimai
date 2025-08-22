@@ -10,6 +10,8 @@ import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/admin/dish")
 @Slf4j
@@ -27,8 +29,17 @@ public class DishController {
     * */
     @GetMapping("/page")
     public Result<PageResult> page(DishPageQueryDTO dishPageQueryDTO){
-        log.info("分页查询:{}",dishPageQueryDTO);
+        log.info("菜品分页查询:{}",dishPageQueryDTO);
         PageResult pageResult = dishService.page(dishPageQueryDTO);
         return Result.success(pageResult);
+    }
+    /*
+    * 删除菜品
+    * */
+    @DeleteMapping
+    public Result delete(@RequestParam List<Long> ids){
+        log.info("菜品批量删除:{}",ids);
+        dishService.deleteBatch(ids);
+        return Result.success();
     }
 }
